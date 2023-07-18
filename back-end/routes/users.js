@@ -6,8 +6,19 @@ const UsersModel = require('../models/user.model');
 
 /* GET users listing. */
 router.get('/get-users', function(req, res, next) {
+  
   UsersModel.find().then((data)=>{
     res.send({status:200,results:data})
+  }).catch((err)=>{
+    res.send(err)
+  })
+});
+router.post('/login-user', function(req, res, next) {
+  
+
+  UsersModel.findOne({email:req.body.email,password:req.body.password}).then((data)=>{
+    res.send({status:200,results:data})
+    console.log(data);
   }).catch((err)=>{
     res.send(err)
   })
@@ -58,6 +69,43 @@ router.post('/add-user', function(req, res) {
 
 
 /* UPDATE user listing. */
+
+
+router.put('/edit-user/:id', function(req, res) {
+  console.log(req.params.id);
+  var value = req.body
+  console.log(value);
+  var userId ={userId:req.params.id}
+  console.log(userId);
+   UsersModel.findOneAndUpdate(userId,value)
+   .then((data)=>{
+     res.send({status:200,results:data})
+   })
+ .catch((err)=>{
+     res.send(err)
+   })
+   console.log("user id:",userId);
+  
+     
+ });
 /* DELETE user listing.*/
+
+router.delete('/delete-user/:id', function(req, res) {
+   
+   
+   
+  var userId ={userId:req.params.id}
+  // console.log(studentId);
+   UsersModel.deleteOne(userId)
+   .then((data)=>{
+     res.send({status:200,results:data})
+   })
+ .catch((err)=>{
+     res.send(err)
+   })
+   
+  
+     
+ });
 
 module.exports = router;
