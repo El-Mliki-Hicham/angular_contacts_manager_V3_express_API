@@ -6,7 +6,6 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { MaterialModule } from '../material.module';
 import { HttpClientModule } from '@angular/common/http';
-import {OAuthModule } from 'angular-oauth2-oidc'
 
 @NgModule({
   declarations: [
@@ -18,7 +17,7 @@ import {OAuthModule } from 'angular-oauth2-oidc'
     MaterialModule,
     CommonModule,
     AuthRoutingModule,HttpClientModule,
-    OAuthModule.forRoot()
+
 
   ]
 })
