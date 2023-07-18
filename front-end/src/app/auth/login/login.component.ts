@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../service/auth.service';
-import { AuthService as AuthServiceGmail  } from '@auth0/auth0-angular';
-import { OAuthService } from 'src/app/services/o-auth.service';
+import { AuthService } from 'src/app/services/Auth/auth.service';
+
 
 @Component({
   selector: 'app-login',
@@ -12,7 +11,7 @@ import { OAuthService } from 'src/app/services/o-auth.service';
 })
 export class LoginComponent {
 
-  constructor(private route: Router,private AuthService: AuthService ,  private FormBuilder:FormBuilder  ,private GoogleService:OAuthService ){}
+  constructor(private route: Router,private AuthService: AuthService ,  private FormBuilder:FormBuilder   ){}
   userLoginSucess : boolean
   formLogin!:FormGroup
   controlPassword = "controlPassword"
@@ -32,10 +31,8 @@ ngOnInit(){
 
 login(){
   console.log(this.formLogin.value)
-    var user = {
-    'email':"hicham@gmail.com",
-    "password":"12345678"
-    }
+  var user =  this.AuthService.getUserData()
+
     if(this.formLogin.get("controlEmail")?.value == user.email && this.formLogin.get("controlPassword")?.value == user.password ){
         this.AuthService.setIsAuthenticated(true)
         console.log(this.AuthService.getIsAuthenticated());

@@ -6,6 +6,13 @@ import { Injectable } from '@angular/core';
 export class AuthService {
   private isAuthenticated = false;
 
+  data = {
+    'email': "hicham@gmail.com",
+    "password": "12345678"
+  }
+
+
+
   constructor() {
     const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
     if (storedIsAuthenticated) {
@@ -25,4 +32,8 @@ export class AuthService {
   checkIsAuthenticated() {
     return this.isAuthenticated;
   }
+  getUserData() {
+    return this.data;
+  }
+
 }

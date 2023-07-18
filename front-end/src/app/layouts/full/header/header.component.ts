@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth/service/auth.service';
+import { AuthService } from 'src/app/services/Auth/auth.service';
 
 
 @Component({
