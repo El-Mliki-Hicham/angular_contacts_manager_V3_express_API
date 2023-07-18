@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 const mongoose = require('mongoose');
 const UsersModel = require('../models/user.model');
@@ -17,7 +18,11 @@ router.post('/login-user', function(req, res, next) {
   
 
   UsersModel.findOne({email:req.body.email,password:req.body.password}).then((data)=>{
-    res.send({status:200,results:data})
+    if(data != null){
+    res.send({status:true,results:data})
+  }else{
+    res.send({status:false})
+  }
     console.log(data);
   }).catch((err)=>{
     res.send(err)
@@ -43,13 +48,20 @@ router.get('/get-user/:id', function(req, res, next) {
 /* ADD user listing. */
 
 router.post('/add-user', function(req, res) {
+
+
+  UsersModel.find().then((data)=>{
+   const idInc =  data.length
+    console.log(data.length)
+ 
+
   console.log(req.body);
-  if (!req.body.userId && !req.body.username && !req.body.email && !req.body.password && !req.body.fullName && !req.body.birthday) {
+  if (!req.body.username && !req.body.email && !req.body.password && !req.body.fullName && !req.body.birthday) {
     return res.status(400).json({ status: 400, message: "Missing required fields" });
   }
 
   let newUser = new UsersModel({
-    userId: req.body.id,
+    userId: idInc+1,
     username: req.body.username,
     email: req.body.email,
     password: req.body.password,
@@ -65,7 +77,8 @@ router.post('/add-user', function(req, res) {
     .catch((err) => {
       res.status(500).json({ status: 500, error: err.message });
     });
-});
+  })
+  });
 
 
 /* UPDATE user listing. */

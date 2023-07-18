@@ -5,4 +5,6 @@ export interface User {
   fullName: String,
   birthday: Date,
   createdAt: Date,
+  userId: Number,
+  _id: Number,
 }
