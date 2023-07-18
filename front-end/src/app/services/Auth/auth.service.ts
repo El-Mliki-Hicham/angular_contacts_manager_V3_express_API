@@ -1,5 +1,7 @@
+import { T } from '@angular/cdk/keycodes';
 import { HttpClient } from '@angular/common/http';
-import { Injectable  } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { User } from '@auth0/auth0-angular';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
 
@@ -9,14 +11,12 @@ import { User } from 'src/app/models/user';
 export class AuthService {
   private isAuthenticated = false;
 
-  data = {
-    'email': "hicham@gmail.com",
-    "password": "12345678"
-  }
+  data = <User>[]
+  userLogged = {}
 
 
 
-  constructor(private httpClient:HttpClient) {
+  constructor(private httpClient: HttpClient) {
     const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
     if (storedIsAuthenticated) {
       this.isAuthenticated = JSON.parse(storedIsAuthenticated);
@@ -35,13 +35,15 @@ export class AuthService {
   checkIsAuthenticated() {
     return this.isAuthenticated;
   }
+  setUser(user:User){
+    this.userLogged = user
+  }
   getUserData() {
     return this.data;
   }
-  getAllUsers():Observable<User>{
-
-  var data  = this.httpClient.get<User>('mongodb://localhost:27017')
-  return data
+  getAllUsers(): Observable<User> {
+    var data = this.httpClient.get<User>('mongodb://localhost:27017')
+    return data
   }
 
 
