@@ -30,15 +30,25 @@ ngOnInit(){
 }
 
 login(){
-  console.log(this.formLogin.value)
-  var user =  this.AuthService.getUserData()
-
-    if(this.formLogin.get("controlEmail")?.value == user.email && this.formLogin.get("controlPassword")?.value == user.password ){
+  var user = {
+    email:this.formLogin.get("controlEmail")?.value,
+    password:this.formLogin.get("controlPassword")?.value
+  }
+  console.log(user)
+  this.AuthService.Login(user).subscribe(user=>{
+    console.log(user)
+    if(user){
         this.AuthService.setIsAuthenticated(true)
         console.log(this.AuthService.getIsAuthenticated());
         this.route.navigate(["/dashboard"])
 
     }
+  },error=>{
+    console.error(error)
+  }
+
+  )
+
 
 }
 loginGmail(): void {

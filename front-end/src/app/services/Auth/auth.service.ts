@@ -1,7 +1,6 @@
 import { T } from '@angular/cdk/keycodes';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from '@auth0/auth0-angular';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
 
@@ -11,7 +10,7 @@ import { User } from 'src/app/models/user';
 export class AuthService {
   private isAuthenticated = false;
 
-  data = <User>[]
+
   userLogged = {}
 
 
@@ -38,11 +37,9 @@ export class AuthService {
   setUser(user:User){
     this.userLogged = user
   }
-  getUserData() {
-    return this.data;
-  }
-  getAllUsers(): Observable<User> {
-    var data = this.httpClient.get<User>('mongodb://localhost:27017')
+
+  Login(value:any) {
+    var data = this.httpClient.post('mongodb://localhost:27017',value)
     return data
   }
 
