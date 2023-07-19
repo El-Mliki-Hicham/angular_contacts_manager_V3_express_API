@@ -7,8 +7,6 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/Auth/auth.service';
 
 

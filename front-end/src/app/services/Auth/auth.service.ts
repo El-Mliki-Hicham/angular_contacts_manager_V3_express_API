@@ -58,6 +58,15 @@ export class AuthService {
     var data = this.httpClient.post<FetshData>('http://localhost:3000/users/login-user',value,{headers:header})
     return data
   }
+  Register(value:any):Observable<FetshData> {
+
+  const  header = new HttpHeaders({
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin":  "http://127.0.0.1:3000"
+  })
+    var data = this.httpClient.post<FetshData>('http://localhost:3000/users/add-user',value,{headers:header})
+    return data
+  }
 
 
 
@@ -65,4 +74,5 @@ export class AuthService {
 export interface FetshData {
   status:boolean,
   results:any
+  message:any
 }

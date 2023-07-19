@@ -78,10 +78,10 @@ router.post('/add-user', function(req, res) {
 
   newUser.save()
     .then((newUser) => {
-      res.status(200).json({ status: 200, message: "User has been added", userObj: newUser });
+      res.status(200).json({ status: true, message: "User has been added", results: newUser });
     })
     .catch((err) => {
-      res.status(500).json({ status: 500, error: err.message });
+      res.status(500).json({ status: false, message: err.message , code:err.code, key:err.keyValue });
     });
   })
 })

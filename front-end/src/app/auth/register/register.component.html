@@ -30,7 +30,7 @@
 
           <div class="or-border m-t-30">or sign up with</div>
 
-          <form [formGroup]="FormRegister" (click)="RegisterForm()" class="m-t-30">
+          <form [formGroup]="FormRegister" class="m-t-30">
             <!-- username  -->
             <mat-label class="mat-subtitle-2 f-s-14 f-w-600 m-b-12 d-block">Username</mat-label>
             <mat-form-field appearance="outline" class="w-100" color="primary">
@@ -83,7 +83,7 @@
               *ngIf="FormRegister.get('ControlBirthday')!.hasError('required') &&FormRegister.get('ControlBirthday')!.touched ">Birthday
               is required</mat-error>
             <!--  btn -->
-            <button [disabled]="!FormRegister.valid" mat-flat-button color="primary" class="w-100">
+            <button  (click)="RegisterForm()" [disabled]="!FormRegister.valid" mat-flat-button color="primary" class="w-100">
               Sign Up
             </button>
             <!-- input -->
