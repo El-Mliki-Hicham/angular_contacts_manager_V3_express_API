@@ -25,13 +25,12 @@ export class HeaderComponent {
   @Output() toggleCollapsed = new EventEmitter<void>();
 
   showFiller = false;
-  username :any
+  user :any
   constructor (private route: Router, public dialog: MatDialog,private AuthService : AuthService) {
 
   }
   ngOnInit(){
-     this.username= localStorage.getItem('user')
-
+    this.user = JSON.parse(localStorage.getItem('user') || '{}');
   }
 
   logout(){

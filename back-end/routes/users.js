@@ -1,8 +1,14 @@
 const express = require('express');
-
+const bcrypt = require("bcrypt")
+const saltRounds = 10
 const router = express.Router();
 const mongoose = require('mongoose');
 const UsersModel = require('../models/user.model');
+const password = "Admin@123"
+
+
+
+
 
 
 /* GET users listing. */
@@ -14,42 +20,41 @@ router.get('/get-users', function(req, res, next) {
     res.send(err)
   })
 });
-router.post('/login-user', function(req, res, next) {
-  
 
-  UsersModel.findOne({email:req.body.email,password:req.body.password}).then((data)=>{
-    if(data != null){
-    res.send({status:true,results:data})
-  }else{
-    res.send({status:false})
-  }
-    console.log(data);
-  }).catch((err)=>{
-    res.send(err)
-  })
-});
-/* GET one user listing. */
-router.get('/get-user/:id', function(req, res, next) {
-  var idParams = req.params.id;
-  UsersModel.find({ userId: idParams })
+
+router.post('/login-user', function(req, res, next) {
+  UsersModel.findOne({ email: req.body.email })
     .then((data) => {
-      if (data) {
-        res.status(200).json({ status: 200, results: data });
+      if (data != null) {
+        // use bcrypt.compare() to compare the user's password with the hash
+        bcrypt.compare(req.body.password, data.password)
+          .then((match) => {
+            if (match) {
+              res.send({ status: true, results: data });
+            } else {
+              res.send({ status: false });
+            }
+          })
+          .catch((err) => console.error(err.message));
       } else {
-        res.status(404).json({ status: 404, message: 'User not found' });
+        res.send({ status: false });
       }
+      console.log(data);
     })
     .catch((err) => {
-      res.status(500).json({ status: 500, error: err.message });
+      res.send(err);
     });
 });
-
 
 /* ADD user listing. */
 
 router.post('/add-user', function(req, res) {
 
-
+  bcrypt
+  .hash(req.body.password, saltRounds)
+  .then(hash => {
+          userHash = hash 
+   
   UsersModel.find().then((data)=>{
    const idInc =  data.length
     console.log(data.length)
@@ -64,11 +69,12 @@ router.post('/add-user', function(req, res) {
     userId: idInc+1,
     username: req.body.username,
     email: req.body.email,
-    password: req.body.password,
+    password: userHash,
     fullName: req.body.fullName,
     birthday: req.body.birthday,
     createdAt: Date.now()
   });
+
 
   newUser.save()
     .then((newUser) => {
@@ -78,7 +84,10 @@ router.post('/add-user', function(req, res) {
       res.status(500).json({ status: 500, error: err.message });
     });
   })
+})
   });
+
+
 
 
 /* UPDATE user listing. */
