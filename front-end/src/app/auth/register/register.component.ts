@@ -11,7 +11,7 @@ import { AuthService } from 'src/app/services/Auth/auth.service';
 })
 export class RegisterComponent {
 constructor(private FormBuilder: FormBuilder,private route:Router,private AuthService : AuthService,private ErrorMessage:CodeError){}
-
+messageError:any;
 FormRegister!: FormGroup;
 ControlName="ControlName" ;
 ControlEmail="ControlEmail" ;
@@ -71,7 +71,7 @@ console.log( this.FormRegister.valid);
 
 },error=>{
   var message =  this.ErrorMessage.message(error.error.code,error.error.key)
-
+this.messageError=message
   console.log(error.error.message)
   console.log(message)
   console.log(error.error)
