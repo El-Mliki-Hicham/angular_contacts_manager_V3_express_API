@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { User } from '@auth0/auth0-angular';
 import { AuthService } from 'src/app/services/Auth/auth.service';
 
-
+import { getAuth, sendPasswordResetEmail } from "firebase/auth"
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -18,7 +18,7 @@ export class LoginComponent {
   controlPassword = "controlPassword"
   controlEmail = "controlEmail"
   messageLogin= false ;
-
+  email: string;
 ngOnInit(){
 
   this.formLogin =this.FormBuilder.group({
@@ -68,5 +68,8 @@ logout(): void {
 
 }
 
+resetPassword(){
+    this.route.navigate(['resetPassword'])
+}
 
 }

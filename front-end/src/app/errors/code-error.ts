@@ -8,6 +8,9 @@ let messageError;
     case 11000:
       messageError =  `${value} is already in use. Please choose a different ${key}.`;;
       break;
+    case 404:
+      messageError =  `${key} not found `;;
+      break;
     default:
       messageError=  `error in ${key}`;
       break;

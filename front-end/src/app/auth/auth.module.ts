@@ -7,11 +7,15 @@ import { RegisterComponent } from './register/register.component';
 import { MaterialModule } from '../material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CodeError } from '../errors/code-error';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { EmailSendComponent } from './email-send/email-send.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    ResetPasswordComponent,
+    EmailSendComponent
   ],
   imports: [
     ReactiveFormsModule,FormsModule,

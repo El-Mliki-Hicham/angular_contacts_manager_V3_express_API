@@ -1,5 +1,5 @@
 import { T } from '@angular/cdk/keycodes';
-import { HttpClient , HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user';
@@ -14,7 +14,7 @@ export class AuthService {
   private isAuthenticated = false;
 
 
-  private userLogged :User
+  private userLogged: User
 
 
 
@@ -41,30 +41,41 @@ export class AuthService {
   checkIsAuthenticated() {
     return this.isAuthenticated;
   }
-  setUser(user:any){
+  setUser(user: any) {
     this.userLogged = user
     localStorage.setItem('user', JSON.stringify(user));
   }
-  getUser(){
+  getUser() {
     return this.userLogged
   }
 
-  Login(value:any):Observable<FetshData> {
+  Login(value: any): Observable<FetshData> {
 
-  const  header = new HttpHeaders({
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin":  "http://127.0.0.1:3000"
-  })
-    var data = this.httpClient.post<FetshData>('http://localhost:3000/users/login-user',value,{headers:header})
+    const header = new HttpHeaders({
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "http://127.0.0.1:3000"
+    })
+    var data = this.httpClient.post<FetshData>('http://localhost:3000/users/login-user', value, { headers: header })
     return data
   }
-  Register(value:any):Observable<FetshData> {
+  //forgotPassword
+  resetPassword(value: any): Observable<FetshData> {
 
-  const  header = new HttpHeaders({
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin":  "http://127.0.0.1:3000"
-  })
-    var data = this.httpClient.post<FetshData>('http://localhost:3000/users/add-user',value,{headers:header})
+    const header = new HttpHeaders({
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "http://127.0.0.1:3000"
+    })
+    var data = this.httpClient.post<FetshData>('http://localhost:3000/users/reset-password', value, { headers: header })
+    return data
+  }
+  //register
+  Register(value: any): Observable<FetshData> {
+
+    const header = new HttpHeaders({
+      "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "http://127.0.0.1:3000"
+    })
+    var data = this.httpClient.post<FetshData>('http://localhost:3000/users/add-user', value, { headers: header })
     return data
   }
 
@@ -72,7 +83,11 @@ export class AuthService {
 
 }
 export interface FetshData {
-  status:boolean,
-  results:any
-  message:any
+  status: boolean,
+  results: any,
+  message: any,
+  code:any,
+  key:any,
+  value:any,
+  new_password:any
 }
