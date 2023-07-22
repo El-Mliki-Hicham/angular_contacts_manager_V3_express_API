@@ -20,7 +20,7 @@ export class LoginComponent {
   messageLogin= false ;
   email: string;
 ngOnInit(){
-
+  this.AuthService.setEmailSending(false)
   this.formLogin =this.FormBuilder.group({
     "controlEmail": new FormControl('',[
       Validators.required,Validators.email

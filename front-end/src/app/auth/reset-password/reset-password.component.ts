@@ -30,6 +30,7 @@ export class ResetPasswordComponent {
 
   forgotPassword(){
     var email = this.formReset.get("controlEmail")?.value
+    email  = email.toLowerCase()
     this.service.resetPassword({"email":email}).subscribe(user=>{
       if(user.status== false){
       var message= this.MessageError.message(user.code,user.key)
@@ -46,6 +47,7 @@ export class ResetPasswordComponent {
       message: user.new_password,
     }).then(res=>{
       console.log(res)
+      this.service.setEmailSending(true)
       this.router.navigate(["/auth/resetPassword/emailSend"])
     })
   })

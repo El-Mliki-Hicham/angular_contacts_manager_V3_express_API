@@ -12,9 +12,8 @@ import { User } from 'src/app/models/user';
 
 export class AuthService {
   private isAuthenticated = false;
-
-
   private userLogged: User
+  private emailSending = false
 
 
 
@@ -27,6 +26,14 @@ export class AuthService {
     if (User) {
       this.userLogged = JSON.parse(User);
     }
+  }
+
+  setEmailSending(value:boolean){
+    this.emailSending = value
+    localStorage.setItem('emailSending', JSON.stringify(value));
+  }
+  getEmailSending() {
+    return this.emailSending;
   }
 
   setIsAuthenticated(value: boolean) {

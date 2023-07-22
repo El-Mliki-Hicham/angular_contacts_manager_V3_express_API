@@ -4,6 +4,7 @@ import { GateGuard } from './middleware/gate.guard';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
 import { AlreadyLoggedGuard } from './middleware/already-logged.guard';
+import { EmailSendedGuard } from './middleware/email-sended.guard';
 
 const routes: Routes = [
   {

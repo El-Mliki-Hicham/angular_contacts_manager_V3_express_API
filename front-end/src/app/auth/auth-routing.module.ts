@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AlreadyLoggedGuard } from '../middleware/already-logged.guard';
+import { EmailSendedGuard } from '../middleware/email-sended.guard';
 import { EmailSendComponent } from './email-send/email-send.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
           component:ResetPasswordComponent
         },
         {
+          canActivate:[EmailSendedGuard],
           path:"resetPassword/emailSend",
           component:EmailSendComponent
         }

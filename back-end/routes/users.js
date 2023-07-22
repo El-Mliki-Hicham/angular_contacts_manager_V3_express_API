@@ -7,16 +7,18 @@ const UsersModel = require('../models/user.model');
 
 
 // program to generate random strings and numbers
-const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
 function generateString(length) {
-  let result = ' ';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let newPassword = '';
   const charactersLength = characters.length;
   for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    newPassword += characters.charAt(Math.floor(Math.random() * charactersLength));
   }
-
-  return result;
+  return bcrypt.hash(newPassword, 10) // Use 10 salt rounds
+    .then((hash) => {
+      return { "hash": hash, "newPassword": newPassword };
+    });
 }
 
 
@@ -47,6 +49,7 @@ router.post('/login-user', function (req, res, next) {
             if (match) {
               res.send({ status: true, results: data });
             } else {
+
               res.send({ status: false });
             }
           })
@@ -54,7 +57,6 @@ router.post('/login-user', function (req, res, next) {
       } else {
         res.send({ status: false });
       }
-      console.log(data);
     })
     .catch((err) => {
       res.send(err);
@@ -144,44 +146,31 @@ router.delete('/delete-user/:id', function (req, res) {
 
 
 });
-
-
 router.post('/reset-password', function (req, res) {
   const email = req.body.email;
-  UsersModel.findOne({ email: email })
-    .then((data) => {
-      if (data != null) {
-        var password = generateString(8);
-        bcrypt.hash(password, saltRounds)
-          .then(hash => {
-            var filter = { userId: data.userId };
-            var update = {
-              username: data.username,
-              email: data.email,
-              password: hash,
-              fullName: data.fullName,
-              birthday: data.birthday,
-              createdAt: Date.now()
-            };
-            UsersModel.findOneAndUpdate(filter, update)
-              .then((data) => {
-                console.log(data);
-                res.send({ status: 200, results: data, new_password: password });
-              })
-              .catch((err) => {
-                res.send(err);
-              });
-          });
-      } else {
-        res.send({key:{"email":req.body.email} ,code:404, status: false, results: data });
-      }
+  generateString(8)
+    .then((result) => {
+      var update = {
+        password: result.hash, // Store the hashed password in the update object
+        updatedAt: Date.now()
+      };
+      var filter = { email: email };
+      UsersModel.findOneAndUpdate(filter, update)
+        .then((data) => {
+          if (data != null) {
+            console.log(data);
+            res.send({ status: 200, results: data, new_password: result.newPassword });
+          } else {
+            res.send({ key: { "email": req.body.email }, code: 404, status: false, results: data });
+          }
+        })
+        .catch((err) => {
+          res.send(err);
+        });
     })
     .catch((err) => {
       res.send(err);
     });
 });
-
-
-
 
 module.exports = router;

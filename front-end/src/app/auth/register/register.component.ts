@@ -21,7 +21,7 @@ ControlBirthday="ControlBirthday" ;
 
 
 ngOnInit(){
-
+  this.AuthService.setEmailSending(false)
   this.FormRegister =this.FormBuilder.group({
     "ControlName": new FormControl('',[
       Validators.required
