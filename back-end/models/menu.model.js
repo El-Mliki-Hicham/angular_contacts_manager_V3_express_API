@@ -1,19 +1,25 @@
 var mongoose= require("mongoose")
 
 var MenuSchema = mongoose.Schema({
-    userId: {
-        type: Number,
+    displayName: {
+        type: String,
         unique: true
       },
-      fullName: {
+      iconName: {
         type: String,
-        required: true
+        
       },    
       role: {
         type: String,
-        required: true
+      },
+      route: {
+        type: String,
+        unique: true
+      },
+      displaying: {
+        type: Boolean,
       }
 })
-var MenuSchema = mongoose.model("menu",MenuSchema)
+var MenuModule = mongoose.model("menu",MenuSchema)
 
-module.exports=UsersModel
+module.exports=MenuModule
