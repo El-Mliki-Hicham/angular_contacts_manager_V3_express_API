@@ -2,6 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core';
 import { NavItem } from './nav-item';
 import { Router } from '@angular/router';
 import { NavService } from '../../../../services/nav.service';
+import { AuthService } from 'src/app/services/Auth/auth.service';
 
 @Component({
   selector: 'app-nav-item',
@@ -11,8 +12,11 @@ import { NavService } from '../../../../services/nav.service';
 export class AppNavItemComponent implements OnChanges {
   @Input() item: NavItem | any;
   @Input() depth: any;
+  roleLogin :any
 
-  constructor(public navService: NavService, public router: Router) {
+  constructor(public navService: NavService,private authService: AuthService, public router: Router) {
+    this.roleLogin= this.authService.getRole()
+    console.log(this.roleLogin)
     if (this.depth === undefined) {
       this.depth = 0;
     }

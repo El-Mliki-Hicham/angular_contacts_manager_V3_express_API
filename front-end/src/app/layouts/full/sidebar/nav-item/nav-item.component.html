@@ -1,4 +1,4 @@
-<div mat-subheader *ngIf="item.navCap" class="nav-caption">
+<div mat-subheader *ngIf="item.navCap && item.role=='user'"  class="nav-caption">
   {{ item.navCap }}
 </div>
 <a
@@ -10,7 +10,7 @@
       : false,
   }"
   class="menu-list-item"
-  *ngIf="!item.navCap"
+  *ngIf="item.role == 'user' && roleLogin == 'user'|| (item.displaying === true && roleLogin === 'admin')"
 >
   <i-tabler
     class="routeIcon"
@@ -19,3 +19,6 @@
   ></i-tabler>
   <span class="hide-menu">{{ item.displayName }}</span>
 </a>
+<ng-template #otherBlock>
+  <!-- content to render if item.role is not 'user' or roleLogin is not 'user' -->
+</ng-template>

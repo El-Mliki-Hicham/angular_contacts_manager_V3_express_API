@@ -61,7 +61,7 @@ export class AuthService {
   getUser() {
     return this.userLogged
   }
-  setRole(role:string){
+  setRole(role:String){
      this.role=  role
      localStorage.setItem('role', JSON.stringify(this.userLogged.role));
   }
