@@ -2,6 +2,7 @@ import { T } from '@angular/cdk/keycodes';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Results } from 'src/app/models/results';
 import { User } from 'src/app/models/user';
 
 @Injectable({
@@ -14,6 +15,7 @@ export class AuthService {
   private isAuthenticated = false;
   private userLogged: User
   private emailSending = false
+  private role :String
 
 
 
@@ -55,46 +57,44 @@ export class AuthService {
   getUser() {
     return this.userLogged
   }
+  setRole(){
+     this.role=  this.userLogged.role
+  }
+  getRole(){
+    return this.role
+  }
 
-  Login(value: any): Observable<FetshData> {
+  Login(value: any): Observable<Results> {
 
     const header = new HttpHeaders({
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "http://127.0.0.1:3000"
     })
-    var data = this.httpClient.post<FetshData>('http://localhost:3000/users/login-user', value, { headers: header })
+    var data = this.httpClient.post<Results>('http://localhost:3000/users/login-user', value, { headers: header })
     return data
   }
   //forgotPassword
-  resetPassword(value: any): Observable<FetshData> {
+  resetPassword(value: any): Observable<Results> {
 
     const header = new HttpHeaders({
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "http://127.0.0.1:3000"
     })
-    var data = this.httpClient.post<FetshData>('http://localhost:3000/users/reset-password', value, { headers: header })
+    var data = this.httpClient.post<Results>('http://localhost:3000/users/reset-password', value, { headers: header })
     return data
   }
   //register
-  Register(value: any): Observable<FetshData> {
+  Register(value: any): Observable<Results> {
 
     const header = new HttpHeaders({
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "http://127.0.0.1:3000"
     })
-    var data = this.httpClient.post<FetshData>('http://localhost:3000/users/add-user', value, { headers: header })
+    var data = this.httpClient.post<Results>('http://localhost:3000/users/add-user', value, { headers: header })
     return data
   }
 
 
 
 }
-export interface FetshData {
-  status: boolean,
-  results: any,
-  message: any,
-  code:any,
-  key:any,
-  value:any,
-  new_password:any
-}
+

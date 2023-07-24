@@ -49,10 +49,10 @@
                 />
                 <div class="m-l-16">
                   <h6 class="mat-subtitle-1 f-s-14 f-w-600">
-                    {{ element.uname }}
+                    {{ element.fullName }}
                   </h6>
                   <span class="mat-body-1 f-s-12">
-                    {{ element.position }}
+                    username: {{ element.username }}
                   </span>
                 </div>
               </div>
@@ -69,7 +69,12 @@
             Role
             </th>
             <td mat-cell *matCellDef="let element" class="mat-body-1">
-              {{ element.productName }}
+              <ng-template [ngIf]="element.role=='admin'">
+              <span class="bg-light-accent text-accent rounded f-w-600 p-6 p-y-4 f-s-12 ng-star-inserted"> {{ element.role }} </span>
+            </ng-template>
+              <ng-template [ngIf]="element.role=='user'">
+                <span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12 ng-star-inserted"> {{ element.role }} </span>
+            </ng-template>
             </td>
           </ng-container>
 
@@ -83,41 +88,9 @@
             Email
             </th>
             <td mat-cell *matCellDef="let element">
-              <ng-template [ngIf]="element.priority == 'low'">
-                <span
-                  class="bg-light-accent text-accent rounded f-w-600 p-6 p-y-4 f-s-12"
-                >
-                  {{ element.priority | titlecase }}
-                </span>
-              </ng-template>
-              <ng-template [ngIf]="element.priority == 'medium'">
-                <span
-                  class="bg-light-primary text-primary rounded f-w-600 p-6 p-y-4 f-s-12"
-                >
-                  {{ element.priority | titlecase }}
-                </span>
-              </ng-template>
-              <ng-template [ngIf]="element.priority == 'high'">
-                <span
-                  class="bg-light-warning text-warning rounded f-w-600 p-6 p-y-4 f-s-12"
-                >
-                  {{ element.priority | titlecase }}
-                </span>
-              </ng-template>
-              <ng-template [ngIf]="element.priority == 'critical'">
-                <span
-                  class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12"
-                >
-                  {{ element.priority | titlecase }}
-                </span>
-              </ng-template>
-              <ng-template [ngIf]="element.priority == 'moderate'">
-                <span
-                  class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12"
-                >
-                  {{ element.priority | titlecase }}
-                </span>
-              </ng-template>
+              <h6 class="mat-subtitle-1 f-s-14 f-w-600">
+                {{ element.email }}
+              </h6>
             </td>
           </ng-container>
 
@@ -131,7 +104,7 @@
             Birthday
             </th>
             <td mat-cell *matCellDef="let element" class="mat-body-1">
-              ${{ element.budget }}k
+              {{ element.birthday | date }}
             </td>
           </ng-container>
 

@@ -86,6 +86,7 @@ router.post('/add-user', function (req, res) {
           userId: idInc + 1,
           username: req.body.username,
           email: req.body.email,
+          role: req.body.role,
           password: userHash,
           fullName: req.body.fullName,
           birthday: req.body.birthday,

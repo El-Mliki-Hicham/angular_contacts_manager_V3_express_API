@@ -52,6 +52,7 @@ RegisterForm(){
       "username":this.FormRegister.get("ControlUsername")!.value,
       "password":this.FormRegister.get("ControlPassword")!.value,
       "birthday":this.FormRegister.get("ControlBirthday")!.value,
+      "role":"user"
   }
   this.AuthService.Register(user).subscribe(res=>{
     console.log(res.message);
