@@ -7,7 +7,7 @@ var router = express.Router();
 router.get('/get-menu', function (req, res, next) {
 
   MenuModule.find().then((data) => {
-    res.send({ status: 200, results: data })
+    res.send( data)
   }).catch((err) => {
     res.send(err)
   })
