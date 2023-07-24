@@ -44,9 +44,11 @@ ngOnInit(){
 }
 
 RegisterForm(){
+  var email =this.FormRegister.get("ControlEmail")!.value
+  email  = email.toLowerCase()
   var user = {
       "fullName":this.FormRegister.get("ControlName")!.value,
-      "email":this.FormRegister.get("ControlEmail")!.value,
+      "email":email,
       "username":this.FormRegister.get("ControlUsername")!.value,
       "password":this.FormRegister.get("ControlPassword")!.value,
       "birthday":this.FormRegister.get("ControlBirthday")!.value,

@@ -32,8 +32,10 @@ ngOnInit(){
 }
 
 login(){
+  var email =this.formLogin.get("controlEmail")?.value
+  email  = email.toLowerCase()
   var user = {
-    email:this.formLogin.get("controlEmail")?.value,
+    email:email,
     password:this.formLogin.get("controlPassword")?.value
   }
   console.log(user)
