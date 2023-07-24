@@ -28,6 +28,10 @@ export class AuthService {
     if (User) {
       this.userLogged = JSON.parse(User);
     }
+    const role = localStorage.getItem('role');
+    if (role) {
+      this.role = JSON.parse(role);
+    }
   }
 
   setEmailSending(value:boolean){
@@ -57,8 +61,9 @@ export class AuthService {
   getUser() {
     return this.userLogged
   }
-  setRole(){
-     this.role=  this.userLogged.role
+  setRole(role:string){
+     this.role=  role
+     localStorage.setItem('role', JSON.stringify(this.userLogged.role));
   }
   getRole(){
     return this.role

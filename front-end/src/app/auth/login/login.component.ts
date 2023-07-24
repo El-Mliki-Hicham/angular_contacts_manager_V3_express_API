@@ -47,6 +47,8 @@ login(){
         console.log(this.AuthService.getIsAuthenticated());
 
         this.AuthService.setUser(user.results)
+        var role =this.AuthService.getUser().role
+        this.AuthService.setRole(role)
         console.log(this.AuthService.getUser())
         this.route.navigate(["/dashboard"])
 
