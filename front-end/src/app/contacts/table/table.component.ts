@@ -7,10 +7,10 @@ import { Component } from '@angular/core';
 })
 export class TableComponent {
 
-  displayedColumns: string[] = ['assigned', 'name', 'priority', 'budget'];
+  displayedColumns: string[] = ['User', 'Role', 'Email', 'Birthday'];
    ELEMENT_DATA = [
     {
-      id: 1,
+
       imagePath: 'assets/images/profile/user-1.jpg',
       uname: 'sss',
       position: 'Web Designer',
