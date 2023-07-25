@@ -29,7 +29,7 @@ var usersSchema = mongoose.Schema({
       },    
       birthday: {
         type: Date,
-        required: true
+        required: false
       },
       createdAt: {
         type: Date,
