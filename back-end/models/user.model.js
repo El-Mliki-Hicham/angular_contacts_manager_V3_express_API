@@ -2,7 +2,7 @@ var mongoose= require("mongoose")
 
 var usersSchema = mongoose.Schema({
     userId: {
-        type: Number,
+        type: String,
         required: true,
         unique: true
       },
@@ -13,7 +13,7 @@ var usersSchema = mongoose.Schema({
       },
       email: {
         type: String,
-        
+        required: true,
         unique: true
       },
       password: {
