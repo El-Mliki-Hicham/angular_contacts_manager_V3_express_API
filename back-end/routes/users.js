@@ -4,6 +4,7 @@ const saltRounds = 10
 const router = express.Router();
 const mongoose = require('mongoose');
 const UsersModel = require('../models/user.model');
+const Counter = require('../models/counter.model');
 
 
 // program to generate random strings and numbers
@@ -65,6 +66,7 @@ router.post('/login-user', function (req, res, next) {
 
 /* ADD user listing. */
 
+
 router.post('/add-user', function (req, res) {
 
   bcrypt
@@ -77,21 +79,27 @@ router.post('/add-user', function (req, res) {
         console.log(data.length)
 
 
-        console.log(req.body);
-        if (!req.body.username && !req.body.email && !req.body.password && !req.body.fullName && !req.body.birthday) {
+        
+        if (!req.body.username || !req.body.email || !req.body.password || !req.body.fullName || !req.body.birthday) {
           return res.status(400).json({ status: 400, message: "Missing required fields" });
         }
+        Counter.findOneAndUpdate(
+          { _id: 'userId' },
+          { $inc: { sequence_value: 1 } },
+          { new: true, upsert: true }
+        )
+        .then((counter) => {
+          let newUser = new UsersModel({
+            userId: counter.sequence_value,
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password,
+            fullName: req.body.fullName,
+            birthday: req.body.birthday,
+            role: req.body.role,
+            createdAt: Date.now()
+          });
 
-        let newUser = new UsersModel({
-          userId: idInc + 1,
-          username: req.body.username,
-          email: req.body.email,
-          role: req.body.role,
-          password: userHash,
-          fullName: req.body.fullName,
-          birthday: req.body.birthday,
-          createdAt: Date.now()
-        });
 
 
         newUser.save()
@@ -103,8 +111,9 @@ router.post('/add-user', function (req, res) {
           });
       })
     })
-});
 
+});
+})
 
 
 
