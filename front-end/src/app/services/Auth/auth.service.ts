@@ -16,7 +16,6 @@ export class AuthService {
   private userLogged: User
   private emailSending = false
   private role :String
-  private storage:[]
 
 
 
@@ -57,7 +56,7 @@ export class AuthService {
   }
   setUser(user: any) {
     this.userLogged = user
-    this.storage= user;
+    localStorage.setItem('user', JSON.stringify(user));
   }
   getUser() {
     return this.userLogged
