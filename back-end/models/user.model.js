@@ -2,8 +2,7 @@ var mongoose= require("mongoose")
 
 var usersSchema = mongoose.Schema({
     userId: {
-        type: String,
-        required: true,
+        type: Number,
         unique: true
       },
     username: {
@@ -21,6 +20,10 @@ var usersSchema = mongoose.Schema({
         required: true
       },
       fullName: {
+        type: String,
+        required: true
+      },    
+      role: {
         type: String,
         required: true
       },    

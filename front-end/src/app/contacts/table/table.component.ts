@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { UserService } from 'src/app/services/Users/user.service';
 
 @Component({
   selector: 'app-table',
@@ -6,18 +7,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent {
+  constructor(private userService:UserService){}
+  Users:any
+  ELEMENT_DATA:any
+  ngOnInit(){
+    this.userService.getAllUsers().subscribe(data=>{
+    this.Users = data.results
+    this.ELEMENT_DATA =this.Users
+    console.log(data.results)
+    })
+    console.log()
+  }
+  displayedColumns: string[] = ['User', 'Role', 'Email', 'Birthday'];
 
-  displayedColumns: string[] = ['assigned', 'name', 'priority', 'budget'];
-   ELEMENT_DATA = [
-    {
-      id: 1,
-      imagePath: 'assets/images/profile/user-1.jpg',
-      uname: 'sss',
-      position: 'Web Designer',
-      productName: 'Elite Admin',
-      budget: 3.9,
-      priority: 'low',
-    }
-  ]
+message: any;
 
 }

@@ -23,7 +23,6 @@ import { SidebarComponent } from './layouts/full/sidebar/sidebar.component';
 import { HeaderComponent } from './layouts/full/header/header.component';
 import { BrandingComponent } from './layouts/full/sidebar/branding.component';
 import { AppNavItemComponent } from './layouts/full/sidebar/nav-item/nav-item.component';
-import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -45,7 +44,7 @@ import { AuthModule } from './auth/auth.module';
     MaterialModule,
     TablerIconsModule.pick(TablerIcons),
   ],
-  exports: [TablerIconsModule,AuthModule],
+  exports: [TablerIconsModule],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

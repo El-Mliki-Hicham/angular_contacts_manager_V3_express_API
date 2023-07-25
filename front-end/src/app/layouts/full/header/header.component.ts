@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/auth/service/auth.service';
+import { AuthService } from 'src/app/services/Auth/auth.service';
 
 
 @Component({
@@ -23,11 +23,17 @@ export class HeaderComponent {
   @Output() toggleCollapsed = new EventEmitter<void>();
 
   showFiller = false;
+  user :any
+  constructor (private route: Router, public dialog: MatDialog,private AuthService : AuthService) {
 
-  constructor (private route: Router, public dialog: MatDialog,private AuthService : AuthService) {}
+  }
+  ngOnInit(){
+    this.user = JSON.parse(localStorage.getItem('user') || '{}');
+  }
 
   logout(){
     this.AuthService.setIsAuthenticated(false)
+    this.AuthService.setUser({})
       this.route.navigate(['auth'])
   }
 }

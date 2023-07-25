@@ -1,106 +1,186 @@
 const express = require('express');
+const bcrypt = require("bcrypt")
+const saltRounds = 10
 const router = express.Router();
 const mongoose = require('mongoose');
 const UsersModel = require('../models/user.model');
 const Counter = require('../models/counter.model');
 
 
+// program to generate random strings and numbers
+
+function generateString(length) {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let newPassword = '';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    newPassword += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return bcrypt.hash(newPassword, 10) // Use 10 salt rounds
+    .then((hash) => {
+      return { "hash": hash, "newPassword": newPassword };
+    });
+}
+
+
+
+
+
+
+
+
 /* GET users listing. */
-router.get('/get-users', function(req, res, next) {  
-  UsersModel.find().then((data)=>{
-    res.send({status:200,results:data})
-  }).catch((err)=>{
+router.get('/get-users', function (req, res, next) {
+
+  UsersModel.find().then((data) => {
+    res.send({ status: 200, results: data })
+  }).catch((err) => {
     res.send(err)
   })
 });
-router.post('/login-user', function(req, res, next) {
-  UsersModel.findOne({email:req.body.email,password:req.body.password}).then((data)=>{
-    res.send({status:200,results:data})
-    console.log(data);
-  }).catch((err)=>{
-    res.send(err)
-  })
-});
-/* GET one user listing. */
-router.get('/get-user/:id', function(req, res, next) {
-  var idParams = req.params.id;
-  UsersModel.find({ userId: idParams })
+
+
+router.post('/login-user', function (req, res, next) {
+  UsersModel.findOne({ email: req.body.email })
     .then((data) => {
-      if (data) {
-        res.status(200).json({ status: 200, results: data });
+      if (data != null) {
+        // use bcrypt.compare() to compare the user's password with the hash
+        bcrypt.compare(req.body.password, data.password)
+          .then((match) => {
+            if (match) {
+              res.send({ status: true, results: data });
+            } else {
+
+              res.send({ status: false });
+            }
+          })
+          .catch((err) => console.error(err.message));
       } else {
-        res.status(404).json({ status: 404, message: 'User not found' });
+        res.send({ status: false });
       }
     })
     .catch((err) => {
-      res.status(500).json({ status: 500, error: err.message });
+      res.send(err);
     });
 });
-
 
 /* ADD user listing. */
 
-router.post('/add-user', function(req, res) {
-  if (!req.body.username || !req.body.email || !req.body.password || !req.body.fullName || !req.body.birthday) {
-    return res.status(400).json({ status: 400, message: "Missing required fields" });
-  }
-  Counter.findOneAndUpdate(
-    { _id: 'userId' },
-    { $inc: { sequence_value: 1 } },
-    { new: true, upsert: true }
-  )
-    .then((counter) => {
-      let newUser = new UsersModel({
-        userId: counter.sequence_value,
-        username: req.body.username,
-        email: req.body.email,
-        password: req.body.password,
-        fullName: req.body.fullName,
-        birthday: req.body.birthday,
-        createdAt: Date.now()
-      });
-      newUser.save()
-        .then((newUser) => {
-          res.status(200).json({ status: 200, message: "User has been added", userObj: newUser });
-        })
-        .catch((err) => {
-          res.status(500).json({ status: 500, error: err.message });
-        });
+
+router.post('/add-user', function (req, res) {
+
+  bcrypt
+    .hash(req.body.password, saltRounds)
+    .then(hash => {
+      userHash = hash
+
+      UsersModel.find().then((data) => {
+        const idInc = data.length
+        console.log(data.length)
+
+
+        
+        if (!req.body.username || !req.body.email || !req.body.password || !req.body.fullName || !req.body.birthday) {
+          return res.status(400).json({ status: 400, message: "Missing required fields" });
+        }
+        Counter.findOneAndUpdate(
+          { _id: 'userId' },
+          { $inc: { sequence_value: 1 } },
+          { new: true, upsert: true }
+        )
+        .then((counter) => {
+          let newUser = new UsersModel({
+            userId: counter.sequence_value,
+            username: req.body.username,
+            email: req.body.email,
+            password: req.body.password,
+            fullName: req.body.fullName,
+            birthday: req.body.birthday,
+            role: req.body.role,
+            createdAt: Date.now()
+          });
+
+
+
+        newUser.save()
+          .then((newUser) => {
+            res.status(200).json({ status: true, message: "User has been added", results: newUser });
+          })
+          .catch((err) => {
+            res.status(500).json({ status: false, message: err.message, code: err.code, key: err.keyValue });
+          });
+      })
     })
-    .catch((err) => {
-      res.status(500).json({ status: 500, error: err.message });
-    });
+
 });
+})
+
 
 
 /* UPDATE user listing. */
-router.put('/edit-user/:id', function(req, res) {
+
+
+router.put('/edit-user/:id', function (req, res) {
   console.log(req.params.id);
   var value = req.body
   console.log(value);
-  var userId ={userId:req.params.id}
+  var userId = { userId: req.params.id }
   console.log(userId);
-   UsersModel.findOneAndUpdate(userId,value)
-   .then((data)=>{
-     res.send({status:200,results:data})
-   })
- .catch((err)=>{
-     res.send(err)
-   })
-   console.log("user id:",userId);     
- });
+  UsersModel.findOneAndUpdate(userId, value)
+    .then((data) => {
+      res.send({ status: 200, results: data })
+    })
+    .catch((err) => {
+      res.send(err)
+    })
+  console.log("user id:", userId);
+
+
+});
 /* DELETE user listing.*/
 
-router.delete('/delete-user/:id', function(req, res) {
-  var userId ={userId:req.params.id}
+router.delete('/delete-user/:id', function (req, res) {
+
+
+
+  var userId = { userId: req.params.id }
   // console.log(studentId);
-   UsersModel.deleteOne(userId)
-   .then((data)=>{
-     res.send({status:200,results:data})
-   })
- .catch((err)=>{
-     res.send(err)
-   })  
- });
+  UsersModel.deleteOne(userId)
+    .then((data) => {
+      res.send({ status: 200, results: data })
+    })
+    .catch((err) => {
+      res.send(err)
+    })
+
+
+
+});
+router.post('/reset-password', function (req, res) {
+  const email = req.body.email;
+  generateString(8)
+    .then((result) => {
+      var update = {
+        password: result.hash, // Store the hashed password in the update object
+        updatedAt: Date.now()
+      };
+      var filter = { email: email };
+      UsersModel.findOneAndUpdate(filter, update)
+        .then((data) => {
+          if (data != null) {
+            console.log(data);
+            res.send({ status: 200, results: data, new_password: result.newPassword });
+          } else {
+            res.send({ key: { "email": req.body.email }, code: 404, status: false, results: data });
+          }
+        })
+        .catch((err) => {
+          res.send(err);
+        });
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+});
 
 module.exports = router;
