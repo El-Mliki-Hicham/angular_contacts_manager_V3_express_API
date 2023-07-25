@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TableComponent } from './table/table.component';
 import { EditComponent } from './edit/edit.component';
 import { CreateComponent } from './create/create.component';
+import { MenuRoutingModule } from './menu-routing.module';
 
 
 
@@ -13,7 +14,8 @@ import { CreateComponent } from './create/create.component';
     CreateComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    MenuRoutingModule
   ]
 })
 export class MenuModule { }

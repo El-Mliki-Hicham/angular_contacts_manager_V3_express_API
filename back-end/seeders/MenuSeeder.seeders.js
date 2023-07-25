@@ -16,8 +16,15 @@ router.post('/seed-menu', function (req, res) {
         },
         {
             displayName: 'Contacts manager',
-            iconName: 'icon-contact',
+            iconName: 'users',
             route: '/contacts',
+            displaying: true,
+            role: "admin"
+        },
+        {
+            displayName: 'Menu manager',
+            iconName: 'menu-2',
+            route: '/menu',
             displaying: true,
             role: "admin"
         },

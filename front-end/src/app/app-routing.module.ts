@@ -46,6 +46,12 @@ const routes: Routes = [
         loadChildren: () =>
           import("./contacts/contacts.module").then((m) => m.ContactsModule),
       },
+      {
+        path: 'menu',
+        canActivate:[RolesGuard],
+        loadChildren: () =>
+          import("./menu/menu.module").then((m) => m.MenuModule),
+      }
 
     ],
   },
