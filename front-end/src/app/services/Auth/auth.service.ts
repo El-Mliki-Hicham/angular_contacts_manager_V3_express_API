@@ -13,38 +13,38 @@ import { User } from 'src/app/models/user';
 
 export class AuthService {
   private isAuthenticated = false;
-  private userLogged: User
-  private emailSending = false
-  private role :String
-
+  private userLogged: any;
+  private emailSending = false;
+  private role: string;
 
 
   constructor(private httpClient: HttpClient) {
-    const storedIsAuthenticated = localStorage.getItem('isAuthenticated');
+    const storedIsAuthenticated = sessionStorage.getItem('isAuthenticated');
     if (storedIsAuthenticated) {
       this.isAuthenticated = JSON.parse(storedIsAuthenticated);
     }
-    const User = localStorage.getItem('user');
-    if (User) {
-      this.userLogged = JSON.parse(User);
+    const user = sessionStorage.getItem('user');
+    if (user) {
+      this.userLogged = JSON.parse(user);
     }
-    const role = localStorage.getItem('role');
+    const role = sessionStorage.getItem('role');
     if (role) {
       this.role = JSON.parse(role);
     }
   }
 
-  setEmailSending(value:boolean){
-    this.emailSending = value
-    localStorage.setItem('emailSending', JSON.stringify(value));
+  setEmailSending(value: boolean) {
+    this.emailSending = value;
+    sessionStorage.setItem('emailSending', JSON.stringify(value));
   }
+
   getEmailSending() {
     return this.emailSending;
   }
 
   setIsAuthenticated(value: boolean) {
     this.isAuthenticated = value;
-    localStorage.setItem('isAuthenticated', JSON.stringify(value));
+    sessionStorage.setItem('isAuthenticated', JSON.stringify(value));
   }
 
   getIsAuthenticated() {
@@ -54,19 +54,23 @@ export class AuthService {
   checkIsAuthenticated() {
     return this.isAuthenticated;
   }
+
   setUser(user: any) {
-    this.userLogged = user
-    localStorage.setItem('user', JSON.stringify(user));
+    this.userLogged = user;
+    sessionStorage.setItem('user', JSON.stringify(user));
   }
+
   getUser() {
-    return this.userLogged
+    return this.userLogged;
   }
-  setRole(role:String){
-     this.role=  role
-     localStorage.setItem('role', JSON.stringify(this.userLogged.role));
+
+  setRole(role: string) {
+    this.role = role;
+    sessionStorage.setItem('role', JSON.stringify(role));
   }
-  getRole(){
-    return this.role
+
+  getRole() {
+    return this.role;
   }
 
   Login(value: any): Observable<Results> {
