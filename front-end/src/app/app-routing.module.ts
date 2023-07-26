@@ -51,6 +51,12 @@ const routes: Routes = [
         canActivate:[RolesGuard],
         loadChildren: () =>
           import("./menu/menu.module").then((m) => m.MenuModule),
+      },
+      {
+        path: 'test',
+        canActivate:[RolesGuard],
+        loadChildren: () =>
+          import("./test/test.module").then((m) => m.TestModule),
       }
 
     ],

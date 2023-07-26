@@ -8,6 +8,7 @@ var usersRouter = require('./routes/users');
 var menuRouter = require('./routes/menu');
 var MenuSeedersRouter = require('./seeders/MenuSeeder.seeders');
 var UserSeedersRouter = require('./seeders/UserSeeder.seeders');
+var ComponentGenerator = require('./routes/generate-component');
 
 const express = require('express');
 const cors = require('cors');
@@ -42,6 +43,7 @@ app.use('/users', usersRouter);
 app.use('/menu', menuRouter);
 app.use('/seeders', MenuSeedersRouter);
 app.use('/seeders', UserSeedersRouter);
+app.use('/generator', ComponentGenerator);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
