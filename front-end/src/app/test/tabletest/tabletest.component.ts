@@ -16,8 +16,7 @@ input="NgModel"
   createComponent(value:any) {
     const componentName = this.input;
     const templateUrl = 'generator/crud/table.html';
-    const command = `ng g component testing/${componentName} --skip-import --template-url=${templateUrl}`;
-
+    const command = `ng g component testing/${componentName} --skip-import`;
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     this.http.post(
